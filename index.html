@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+	const urlParams = new URLSearchParams(window.location.search);
+	const password = urlParams.get('password');
+
+	if (!password) {
+		document.body.innerHTML = "NO PASSWORD"; // Clear the body if no password is provided
+		return;
+	}
+
+	const encryptedElement = document.querySelector("encrypt");
+	if (encryptedElement) {
+		const encryptedText = encryptedElement.textContent;
+
+		try {
+			const decryptedBytes = CryptoJS.AES.decrypt(encryptedText, password);
+			const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+			if (decryptedText) {
+				encryptedElement.innerHTML = decryptedText; // Replace body content with decrypted HTML
+			} else {
+				document.body.innerHTML = "DECRYPTION FAILED"; // Clear the body if decryption fails
+			}
+		} catch (error) {
+			console.error("Decryption failed:", error);
+			document.body.innerHTML = "ERROR / INVALID PASSWORD"; // Clear the body if an error occurs
+		}
+	}
+
+
+	const codeElement = document.querySelector("code");
+	console.log(codeElement);
+	if (codeElement) {
+		const encryptedCode = codeElement.textContent;
+		try {
+			const decryptedCodeBytes = CryptoJS.AES.decrypt(encryptedCode, password);
+			const decryptedCode = decryptedCodeBytes.toString(CryptoJS.enc.Utf8);
+
+			if (decryptedCode) {
+				eval(decryptedCode); // Execute the decrypted JavaScript code
+			} else {
+				console.error("Code decryption failed");
+				document.body.innerHTML = "CODE DECRYPTION FAILED";
+			}
+		} catch (error) {
+			console.error("Code decryption error:", error);
+			document.body.innerHTML = "ERROR / INVALID PASSWORD FOR CODE";
+		}
+	}
+	codeElement.innerHTML = "";
+});
+</script>
+</head>
+<body>
+
+<code>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</code>
+    <encrypt>U2FsdGVkX18ygxlQ7VTFRkvfV3aEurUHtu7Td074icJGHTrUJ3FhtNDmrHPa5FtAyvFK0MMo0S1K6RoJ5iONWfrmd3JaQo3Vk2kefOj80iC1J2459FYF6SzOjh1CLVeGHxtJ2WPAN9CC0n4tq7DS5wk81a8LhZCDzu3wGCXsB+wfO/Vi3EZ8wmK+X1yWWtm0Jlz3cM/M2goAeJNwzOBMYGSFxJi2UptC6WFsn3AWpyW19TFubYghiqbiS4Xyj1m9IKE2LWXF6wrgumR0CzFmyElZabV5YcvaeUzCI4aWMNHYhkrioSwi3bsXAfYzCulOOONK0j48EuT3EB1ujAv2hbQWMDhFQOdn15ENzt0UHCBmcvHG7eno2nLMGu8OwRv6jTJe2FVXmGR7kE7LpWBJLbVsiSdj84yyFSvLUOzwDJUf8nAVB2vXDKrFW1YTlYTQUeSGSUE7w4bo5k7zbSMmkmq1pnTdj2eqIh+JsTt1zu7mk7X0gJR69hFRdTxErbbrFXpRbk6qh93PRmmoHucqv92u3KmKqgYnHGrsUhURBpkBZApBmJon4E7J4tBMvh5AF0xTPuUi7B2e41+mw5wyz4mNAybLSWdMg5XYjjUF4Q7X1cnmDLhUoqoBwczXCVm2c6nVsfQpnyoDx7pNec4xrtn+ZRFHkQEI8eEFeagmc399DvhCgEn7cgUxLUFQzp0/inFg5+J+JqAReQ/jooHOuZ6P5TU48ng96vpuYAGD1hPymjx2N+ETPtYSi0VzrJNsXVyPhHqieUmfe1TdGfpd5LayWRXbjIfW5xbjc1K6kIYyBvz3kU5sgJrnMffQFN/TewsATsSjKr9keGrX35iTzg==</encrypt>
+</body>
+</html>
